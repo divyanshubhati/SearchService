@@ -3,10 +3,7 @@ package com.zotdrive.searchservice.search.utility;
 import com.zotdrive.searchservice.search.SearchRequestDTO;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchRequestBuilder;
-import org.elasticsearch.index.query.MultiMatchQueryBuilder;
-import org.elasticsearch.index.query.Operator;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.util.CollectionUtils;
@@ -45,6 +42,37 @@ public class SearchUtility {
         try {
             final SearchSourceBuilder builder = new SearchSourceBuilder()
                     .postFilter(getQueryBuilder(field, date));
+
+            final SearchRequest request = new SearchRequest(indexName);
+            request.source(builder);
+
+            return request;
+        } catch (final Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static SearchRequest buildSearchRequest(final String indexName,
+                                                   final SearchRequestDTO dto,
+                                                   final Date date) {
+        try {
+            final QueryBuilder searchQuery = getQueryBuilder(dto);
+            final QueryBuilder dateQuery = getQueryBuilder("created", date);
+
+            final BoolQueryBuilder boolQuery = QueryBuilders.boolQuery()
+                    .must(searchQuery)
+                    .must(dateQuery);
+
+            SearchSourceBuilder builder = new SearchSourceBuilder()
+                    .postFilter(boolQuery);
+
+            if (dto.getSortBy() != null) {
+                builder = builder.sort(
+                        dto.getSortBy(),
+                        dto.getOrder() != null ? dto.getOrder() : SortOrder.ASC
+                );
+            }
 
             final SearchRequest request = new SearchRequest(indexName);
             request.source(builder);

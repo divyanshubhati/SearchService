@@ -48,4 +48,13 @@ public class FileController {
             final Date date){
         return service.getAllVehiclesCreatedSince(date);
     }
+
+    @PostMapping("/searchcreatedsince/{date}")
+    public List<FileObject> searchCreatedSince(
+            @RequestBody final SearchRequestDTO dto,
+            @PathVariable
+            @DateTimeFormat(pattern = "yyyy-MM-dd")
+            final Date date) {
+        return service.searchCreatedSince(dto, date);
+    }
 }

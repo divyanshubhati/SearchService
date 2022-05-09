@@ -99,6 +99,16 @@ public class FileService {
         return searchInternal(request);
     }
 
+    public List<FileObject> searchCreatedSince(final SearchRequestDTO dto, final Date date) {
+        final SearchRequest request = SearchUtility.buildSearchRequest(
+                Indices.FILE_INDEX,
+                dto,
+                date
+        );
+
+        return searchInternal(request);
+    }
+
 
     private List<FileObject> searchInternal(final SearchRequest request) {
         if (request == null) {
