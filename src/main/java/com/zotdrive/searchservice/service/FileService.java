@@ -33,9 +33,7 @@ public class FileService {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
     private static final Logger LOG = LoggerFactory.getLogger(FileService.class);
-
     private final RestHighLevelClient client;
-
     private final FileRepository repository;
 
     @Autowired
@@ -77,7 +75,7 @@ public class FileService {
     }
 
     public List<FileObject> findKeyWord(final String keyword){
-        return repository.findByTagContainingOrName(keyword, keyword);
+        return repository.findByTagsContainingOrName(keyword, keyword);
     }
 
     public List<FileObject> search(final SearchRequestDTO dto) {

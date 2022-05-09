@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface FileRepository extends ElasticsearchRepository<FileObject, String> {
 
-    List<FileObject> findByTagContainingOrName(String tag, String name);
+    List<FileObject> findByTagsContainingOrName(String tag, String name);
 }

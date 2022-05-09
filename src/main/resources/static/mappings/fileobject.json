@@ -6,10 +6,28 @@
     "name": {
       "type": "keyword"
     },
-    "tag": {
+    "tags": {
       "type": "text"
     },
-    "created": {
+    "createdBy": {
+      "type": "keyword"
+    },
+    "parentId": {
+      "type": "keyword"
+    },
+    "path": {
+      "type": "text"
+    },
+    "isDeleted": {
+      "type": "boolean"
+    },
+    "sharedWith": {
+      "type": "keyword"
+    },
+    "isFolder": {
+      "type": "boolean"
+    },
+    "createdOn": {
       "type": "date"
     }
   }

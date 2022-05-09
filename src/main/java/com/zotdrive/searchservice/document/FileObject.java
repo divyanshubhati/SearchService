@@ -2,43 +2,32 @@ package com.zotdrive.searchservice.document;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.zotdrive.searchservice.helper.Indices;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
-import org.springframework.data.elasticsearch.annotations.Setting;
-
 import java.util.Date;
+import java.util.List;
 
-//@Document(indexName = Indices.FILE_INDEX)
+
 public class FileObject {
 
-    //@Id
     private String id;
 
     private String name;
 
-    private String tag;
+    private String tags;
+
+    private String createdBy;
+
+    private String parentId;
+
+    private String path;
+
+    private boolean isDeleted;
+
+    private List<String> sharedWith;
+
+    private boolean isFolder;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date created;
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date createdAt) {
-        this.created = createdAt;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
+    private Date createdOn;
 
     public String getId() {
         return id;
@@ -54,5 +43,69 @@ public class FileObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public List<String> getSharedWith() {
+        return sharedWith;
+    }
+
+    public void setSharedWith(List<String> sharedWith) {
+        this.sharedWith = sharedWith;
+    }
+
+    public Boolean getFolder() {
+        return isFolder;
+    }
+
+    public void setFolder(Boolean folder) {
+        isFolder = folder;
+    }
+
+    public Date getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
     }
 }
