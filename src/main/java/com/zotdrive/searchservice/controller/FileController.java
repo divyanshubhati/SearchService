@@ -1,9 +1,14 @@
 package com.zotdrive.searchservice.controller;
 
-import com.zotdrive.searchservice.document.File;
+import com.zotdrive.searchservice.document.FileObject;
+import com.zotdrive.searchservice.search.SearchRequestDTO;
 import com.zotdrive.searchservice.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/file")
@@ -17,12 +22,30 @@ public class FileController {
     }
 
     @PostMapping
-    public void save(@RequestBody final File file) {
-        service.save(file);
+    public void save(@RequestBody final FileObject file) {
+        service.saveFile(file);
     }
 
     @GetMapping("/{id}")
-    public File findById(@PathVariable final Long id) {
-        return service.findById(id);
+    public FileObject findById(@PathVariable final String id) {
+        return service.getFileById(id);
+    }
+
+//    @GetMapping("/search/{keyword}")
+//    public List<FileObject> findByKeyword(@PathVariable final  String keyword) {
+//        return service.findKeyWord(keyword);
+//    }
+
+    @PostMapping("/search")
+    public List<FileObject> search(@RequestBody final SearchRequestDTO dto) {
+        return service.search(dto);
+    }
+
+    @GetMapping("/search/{date}")
+    public List<FileObject> getAllFileCreatedSince(
+            @PathVariable
+            @DateTimeFormat(pattern = "yyyy-MM-dd")
+            final Date date){
+        return service.getAllVehiclesCreatedSince(date);
     }
 }
