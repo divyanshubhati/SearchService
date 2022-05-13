@@ -20,11 +20,11 @@ public class FileObject {
 
     private String path;
 
-    private boolean isDeleted;
+    private boolean deleted;
 
     private List<String> sharedWith;
 
-    private boolean isFolder;
+    private boolean folder;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createdOn;
@@ -78,11 +78,11 @@ public class FileObject {
     }
 
     public boolean getDeleted() {
-        return isDeleted;
+        return deleted;
     }
 
     public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
+        this.deleted = deleted;
     }
 
     public List<String> getSharedWith() {
@@ -94,11 +94,11 @@ public class FileObject {
     }
 
     public Boolean getFolder() {
-        return isFolder;
+        return folder;
     }
 
     public void setFolder(Boolean folder) {
-        isFolder = folder;
+        this.folder = folder;
     }
 
     public Date getCreatedOn() {

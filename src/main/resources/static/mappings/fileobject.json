@@ -18,13 +18,13 @@
     "path": {
       "type": "text"
     },
-    "isDeleted": {
+    "deleted": {
       "type": "boolean"
     },
     "sharedWith": {
       "type": "keyword"
     },
-    "isFolder": {
+    "folder": {
       "type": "boolean"
     },
     "createdOn": {

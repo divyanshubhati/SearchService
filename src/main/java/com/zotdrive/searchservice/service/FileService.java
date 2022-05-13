@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zotdrive.searchservice.document.FileObject;
 import com.zotdrive.searchservice.helper.Indices;
 import com.zotdrive.searchservice.repositories.FileRepository;
+import com.zotdrive.searchservice.search.SearchReq;
 import com.zotdrive.searchservice.search.SearchRequestDTO;
 import com.zotdrive.searchservice.search.utility.SearchUtility;
 import org.elasticsearch.action.get.GetRequest;
@@ -20,7 +21,6 @@ import org.elasticsearch.search.SearchHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -78,8 +78,8 @@ public class FileService {
         return repository.findByTagsContainingOrName(keyword, keyword);
     }
 
-    public List<FileObject> search(final SearchRequestDTO dto) {
-        final SearchRequest request = SearchUtility.buildSearchRequest(
+    public List<FileObject> search(final SearchReq dto) {
+        final org.elasticsearch.action.search.SearchRequest request = SearchUtility.buildSearchRequest(
                 Indices.FILE_INDEX,
                 dto
         );
@@ -87,8 +87,13 @@ public class FileService {
         return searchInternal(request);
     }
 
+    public List<FileObject> searchUsingDTO(final SearchRequestDTO dto){
+        final SearchRequest request = SearchUtility.buildSearchRequest( Indices.FILE_INDEX, dto);
+        return searchInternal(request);
+    }
+
     public List<FileObject> getAllVehiclesCreatedSince(final Date date) {
-        final SearchRequest request = SearchUtility.buildSearchRequest(
+        final org.elasticsearch.action.search.SearchRequest request = SearchUtility.buildSearchRequest(
                 Indices.FILE_INDEX,
                 "created",
                 date
@@ -97,8 +102,8 @@ public class FileService {
         return searchInternal(request);
     }
 
-    public List<FileObject> searchCreatedSince(final SearchRequestDTO dto, final Date date) {
-        final SearchRequest request = SearchUtility.buildSearchRequest(
+    public List<FileObject> searchCreatedSince(final SearchReq dto, final Date date) {
+        final org.elasticsearch.action.search.SearchRequest request = SearchUtility.buildSearchRequest(
                 Indices.FILE_INDEX,
                 dto,
                 date
@@ -108,7 +113,7 @@ public class FileService {
     }
 
 
-    private List<FileObject> searchInternal(final SearchRequest request) {
+    private List<FileObject> searchInternal(final org.elasticsearch.action.search.SearchRequest request) {
         if (request == null) {
             LOG.error("Failed to build search request");
             return Collections.emptyList();

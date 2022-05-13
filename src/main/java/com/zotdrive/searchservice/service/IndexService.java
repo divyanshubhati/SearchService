@@ -29,7 +29,7 @@ public class IndexService {
 
     @PostConstruct
     public void checkIndex(){
-        checkAndCreateIndices(true);
+        checkAndCreateIndices(false);
     }
 
     public void checkAndCreateIndices(final boolean deleteExisting) {

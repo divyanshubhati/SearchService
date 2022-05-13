@@ -1,46 +1,67 @@
 package com.zotdrive.searchservice.search;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-import org.elasticsearch.search.sort.SortOrder;
-
-import java.util.List;
+import java.util.Date;
 
 public class SearchRequestDTO {
 
-    private List<String> fields;
-    private String searchTerm;
-    private String sortBy;
-    private SortOrder order;
+    String userId;
+    String keyword;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createdAfter;
 
-    public String getSortBy() {
-        return sortBy;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createdBefore;
+
+    boolean deleted;
+    String parentId;
+
+    public String getUserId() {
+        return userId;
     }
 
-    public void setSortBy(String sortBy) {
-        this.sortBy = sortBy;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public SortOrder getOrder() {
-        return order;
+    public String getKeyword() {
+        return keyword;
     }
 
-    public void setOrder(SortOrder order) {
-        this.order = order;
+    public Date getCreatedBefore() {
+        return createdBefore;
     }
 
-    public List<String> getFields() {
-        return fields;
+    public void setCreatedBefore(Date createdBefore) {
+        this.createdBefore = createdBefore;
     }
 
-    public void setFields(List<String> fields) {
-        this.fields = fields;
+    public boolean isDeleted() {
+        return deleted;
     }
 
-    public String getSearchTerm() {
-        return searchTerm;
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
-    public void setSearchTerm(String searchTerm) {
-        this.searchTerm = searchTerm;
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public Date getCreatedAfter() {
+        return createdAfter;
+    }
+
+    public void setCreatedAfter(Date createdAfter) {
+        this.createdAfter = createdAfter;
     }
 }

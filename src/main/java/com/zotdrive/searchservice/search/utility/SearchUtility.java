@@ -1,8 +1,8 @@
 package com.zotdrive.searchservice.search.utility;
 
+import com.zotdrive.searchservice.search.SearchReq;
 import com.zotdrive.searchservice.search.SearchRequestDTO;
 import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortOrder;
@@ -13,7 +13,55 @@ import java.util.List;
 
 public class SearchUtility {
 
+
     public static SearchRequest buildSearchRequest(final String indexName, final SearchRequestDTO dto){
+        try {
+            final QueryBuilder userQuery = QueryBuilders.termQuery("createdBy", dto.getUserId());
+
+            final QueryBuilder notDeletedQuery = QueryBuilders.termQuery("deleted", dto.isDeleted());
+
+
+            BoolQueryBuilder boolQuery = QueryBuilders.boolQuery()
+                    .filter(userQuery)
+                    .filter(notDeletedQuery);
+
+            if(dto.getKeyword() != null){
+                final QueryBuilder keywordQuery = QueryBuilders.matchQuery("tags", dto.getKeyword()).operator(Operator.AND);
+                boolQuery = boolQuery.must(keywordQuery);
+            }
+
+
+            if(dto.getCreatedAfter() != null){
+                final QueryBuilder dateQuery = QueryBuilders.rangeQuery("createdOn").gte(dto.getCreatedAfter());
+                boolQuery = boolQuery.filter(dateQuery);
+            }
+
+            if(dto.getCreatedBefore() != null){
+                final QueryBuilder dateQuery = QueryBuilders.rangeQuery("createdOn").lte(dto.getCreatedBefore());
+                boolQuery = boolQuery.filter(dateQuery);
+            }
+
+            if(dto.getParentId() != null){
+                final QueryBuilder parentQuery = QueryBuilders.termQuery("parentId", dto.getParentId());
+                boolQuery = boolQuery.filter(parentQuery);
+            }
+
+            SearchSourceBuilder builder = new SearchSourceBuilder()
+                    .postFilter(boolQuery);
+
+            builder = builder.sort("name", SortOrder.ASC);
+
+            final SearchRequest request = new SearchRequest(indexName);
+            request.source(builder);
+
+            return request;
+        } catch (final Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static SearchRequest buildSearchRequest(final String indexName, final SearchReq dto){
 
         try{
             SearchSourceBuilder builder = new SearchSourceBuilder().postFilter(getQueryBuilder(dto));
@@ -37,8 +85,8 @@ public class SearchUtility {
     }
 
     public static SearchRequest buildSearchRequest(final String indexName,
-                                                   final String field,
-                                                   final Date date) {
+                                                                                   final String field,
+                                                                                   final Date date) {
         try {
             final SearchSourceBuilder builder = new SearchSourceBuilder()
                     .postFilter(getQueryBuilder(field, date));
@@ -54,8 +102,8 @@ public class SearchUtility {
     }
 
     public static SearchRequest buildSearchRequest(final String indexName,
-                                                   final SearchRequestDTO dto,
-                                                   final Date date) {
+                                                                                   final SearchReq dto,
+                                                                                   final Date date) {
         try {
             final QueryBuilder searchQuery = getQueryBuilder(dto);
             final QueryBuilder dateQuery = getQueryBuilder("created", date);
@@ -84,7 +132,7 @@ public class SearchUtility {
         }
     }
 
-    private static QueryBuilder getQueryBuilder(final SearchRequestDTO dto) {
+    private static QueryBuilder getQueryBuilder(final SearchReq dto) {
         if (dto == null) {
             return null;
         }

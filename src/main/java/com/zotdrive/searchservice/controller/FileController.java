@@ -1,6 +1,7 @@
 package com.zotdrive.searchservice.controller;
 
 import com.zotdrive.searchservice.document.FileObject;
+import com.zotdrive.searchservice.search.SearchReq;
 import com.zotdrive.searchservice.search.SearchRequestDTO;
 import com.zotdrive.searchservice.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class FileController {
 //    }
 
     @PostMapping("/search")
-    public List<FileObject> search(@RequestBody final SearchRequestDTO dto) {
+    public List<FileObject> search(@RequestBody final SearchReq dto) {
         return service.search(dto);
     }
 
@@ -51,10 +52,18 @@ public class FileController {
 
     @PostMapping("/searchcreatedsince/{date}")
     public List<FileObject> searchCreatedSince(
-            @RequestBody final SearchRequestDTO dto,
+            @RequestBody final SearchReq dto,
             @PathVariable
             @DateTimeFormat(pattern = "yyyy-MM-dd")
             final Date date) {
         return service.searchCreatedSince(dto, date);
     }
+
+    @PostMapping("/searchwithdto")
+    public List<FileObject> searchwithdto(
+            @RequestBody final SearchRequestDTO dto) {
+        return service.searchUsingDTO(dto);
+    }
+
+
 }
