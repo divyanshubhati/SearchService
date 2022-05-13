@@ -65,5 +65,20 @@ public class FileController {
         return service.searchUsingDTO(dto);
     }
 
+    @PutMapping("/update")
+    public void update(@RequestBody final FileObject updatedFileObject){
+        service.update(updatedFileObject);
+    }
+
+    @DeleteMapping("/{fileId}")
+    public void delete(@PathVariable final String fileId ){
+        service.updateFileStatus(fileId, true);
+    }
+
+    @PutMapping("/recover/{fileId}")
+    public void recover(@PathVariable final String fileId){
+        service.updateFileStatus(fileId, false);
+    }
+
 
 }
