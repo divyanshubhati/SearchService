@@ -26,7 +26,12 @@ public class SearchUtility {
                     .filter(notDeletedQuery);
 
             if(dto.getKeyword() != null){
-                final QueryBuilder keywordQuery = QueryBuilders.matchQuery("tags", dto.getKeyword()).operator(Operator.AND);
+                //final QueryBuilder keywordQuery = QueryBuilders.matchQuery("tags", dto.getKeyword()).operator(Operator.AND);
+                final MultiMatchQueryBuilder keywordQuery = QueryBuilders.multiMatchQuery(dto.getKeyword())
+                        .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
+                        .operator(Operator.AND)
+                        .field("tags")
+                        .field("name");
                 boolQuery = boolQuery.must(keywordQuery);
             }
 
