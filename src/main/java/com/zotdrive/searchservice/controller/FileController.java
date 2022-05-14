@@ -37,30 +37,30 @@ public class FileController {
 //        return service.findKeyWord(keyword);
 //    }
 
+//    @PostMapping("/search")
+//    public List<FileObject> search(@RequestBody final SearchReq dto) {
+//        return service.search(dto);
+//    }
+//
+//    @GetMapping("/search/{date}")
+//    public List<FileObject> getAllFileCreatedSince(
+//            @PathVariable
+//            @DateTimeFormat(pattern = "yyyy-MM-dd")
+//            final Date date){
+//        return service.getAllVehiclesCreatedSince(date);
+//    }
+//
+//    @PostMapping("/searchcreatedsince/{date}")
+//    public List<FileObject> searchCreatedSince(
+//            @RequestBody final SearchReq dto,
+//            @PathVariable
+//            @DateTimeFormat(pattern = "yyyy-MM-dd")
+//            final Date date) {
+//        return service.searchCreatedSince(dto, date);
+//    }
+
     @PostMapping("/search")
-    public List<FileObject> search(@RequestBody final SearchReq dto) {
-        return service.search(dto);
-    }
-
-    @GetMapping("/search/{date}")
-    public List<FileObject> getAllFileCreatedSince(
-            @PathVariable
-            @DateTimeFormat(pattern = "yyyy-MM-dd")
-            final Date date){
-        return service.getAllVehiclesCreatedSince(date);
-    }
-
-    @PostMapping("/searchcreatedsince/{date}")
-    public List<FileObject> searchCreatedSince(
-            @RequestBody final SearchReq dto,
-            @PathVariable
-            @DateTimeFormat(pattern = "yyyy-MM-dd")
-            final Date date) {
-        return service.searchCreatedSince(dto, date);
-    }
-
-    @PostMapping("/searchwithdto")
-    public List<FileObject> searchwithdto(
+    public List<FileObject> search(
             @RequestBody final SearchRequestDTO dto) {
         return service.searchUsingDTO(dto);
     }

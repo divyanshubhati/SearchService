@@ -100,43 +100,43 @@ public class FileService {
        // return repository.findById(fileId).orElse(null);
     }
 
-    public List<FileObject> findKeyWord(final String keyword){
-        return repository.findByTagsContainingOrName(keyword, keyword);
-    }
-
-    public List<FileObject> search(final SearchReq dto) {
-        final org.elasticsearch.action.search.SearchRequest request = SearchUtility.buildSearchRequest(
-                Indices.FILE_INDEX,
-                dto
-        );
-
-        return searchInternal(request);
-    }
+//    public List<FileObject> findKeyWord(final String keyword){
+//        return repository.findByTagsContainingOrName(keyword, keyword);
+//    }
+//
+//    public List<FileObject> search(final SearchReq dto) {
+//        final org.elasticsearch.action.search.SearchRequest request = SearchUtility.buildSearchRequest(
+//                Indices.FILE_INDEX,
+//                dto
+//        );
+//
+//        return searchInternal(request);
+//    }
 
     public List<FileObject> searchUsingDTO(final SearchRequestDTO dto){
         final SearchRequest request = SearchUtility.buildSearchRequest( Indices.FILE_INDEX, dto);
         return searchInternal(request);
     }
 
-    public List<FileObject> getAllVehiclesCreatedSince(final Date date) {
-        final org.elasticsearch.action.search.SearchRequest request = SearchUtility.buildSearchRequest(
-                Indices.FILE_INDEX,
-                "created",
-                date
-        );
-
-        return searchInternal(request);
-    }
-
-    public List<FileObject> searchCreatedSince(final SearchReq dto, final Date date) {
-        final org.elasticsearch.action.search.SearchRequest request = SearchUtility.buildSearchRequest(
-                Indices.FILE_INDEX,
-                dto,
-                date
-        );
-
-        return searchInternal(request);
-    }
+//    public List<FileObject> getAllVehiclesCreatedSince(final Date date) {
+//        final org.elasticsearch.action.search.SearchRequest request = SearchUtility.buildSearchRequest(
+//                Indices.FILE_INDEX,
+//                "created",
+//                date
+//        );
+//
+//        return searchInternal(request);
+//    }
+//
+//    public List<FileObject> searchCreatedSince(final SearchReq dto, final Date date) {
+//        final org.elasticsearch.action.search.SearchRequest request = SearchUtility.buildSearchRequest(
+//                Indices.FILE_INDEX,
+//                dto,
+//                date
+//        );
+//
+//        return searchInternal(request);
+//    }
 
 
     private List<FileObject> searchInternal(final org.elasticsearch.action.search.SearchRequest request) {
