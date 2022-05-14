@@ -59,7 +59,7 @@ public class FileService {
            // repository.save(file);
     }
 
-    public void update(final FileObject updatedFileObject){
+    public boolean update(final FileObject updatedFileObject){
         FileObject originalFileObject = getFileById(updatedFileObject.getId());
         if(updatedFileObject.getParentId() != null){
             originalFileObject.setParentId(updatedFileObject.getParentId());
@@ -73,14 +73,14 @@ public class FileService {
         if(updatedFileObject.getTags() != null){
             originalFileObject.setTags(updatedFileObject.getTags());
         }
-        saveFile(originalFileObject);
+        return saveFile(originalFileObject);
     }
 
-    public void updateFileStatus (final String fieldId, final boolean status){
+    public boolean updateFileStatus (final String fieldId, final boolean status){
 
         FileObject originalFileObject = getFileById(fieldId);
         originalFileObject.setDeleted(status);
-        saveFile(originalFileObject);
+        return saveFile(originalFileObject);
 
     }
 

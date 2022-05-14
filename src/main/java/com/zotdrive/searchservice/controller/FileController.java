@@ -6,6 +6,8 @@ import com.zotdrive.searchservice.search.SearchRequestDTO;
 import com.zotdrive.searchservice.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -23,8 +25,13 @@ public class FileController {
     }
 
     @PostMapping
-    public void save(@RequestBody final FileObject file) {
-        service.saveFile(file);
+    public ResponseEntity<String> save(@RequestBody final FileObject file) {
+
+        if(service.saveFile(file)){
+            return new ResponseEntity<>("Filed added successfully", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Issue creating file", HttpStatus.PRECONDITION_FAILED);
+        }
     }
 
     @GetMapping("/{id}")
@@ -66,18 +73,34 @@ public class FileController {
     }
 
     @PutMapping("/update")
-    public void update(@RequestBody final FileObject updatedFileObject){
-        service.update(updatedFileObject);
+    public ResponseEntity<String> update(@RequestBody final FileObject updatedFileObject){
+        if(updatedFileObject.getId() == null){
+            return new ResponseEntity<>("FileId missing", HttpStatus.PRECONDITION_FAILED);
+        }
+        if(service.update(updatedFileObject)){
+            return new ResponseEntity<>("Filed updated successfully", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Issue updating file", HttpStatus.PRECONDITION_FAILED);
+        }
     }
 
     @DeleteMapping("/{fileId}")
-    public void delete(@PathVariable final String fileId ){
-        service.updateFileStatus(fileId, true);
+    public ResponseEntity<String> delete(@PathVariable final String fileId ){
+
+        if(service.updateFileStatus(fileId, true)) {
+            return new ResponseEntity<>("Filed deleted successfully", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Issue deleting file", HttpStatus.PRECONDITION_FAILED);
+        }
     }
 
     @PutMapping("/recover/{fileId}")
-    public void recover(@PathVariable final String fileId){
-        service.updateFileStatus(fileId, false);
+    public ResponseEntity<String> recover(@PathVariable final String fileId){
+        if(service.updateFileStatus(fileId, false)){
+            return new ResponseEntity<>("Filed recovered successfully", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Issue recovering file", HttpStatus.PRECONDITION_FAILED);
+        }
     }
 
 
